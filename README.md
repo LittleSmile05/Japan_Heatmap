@@ -2,7 +2,7 @@
 
 This project displays a heatmap for various locations in Japan using Leaflet and Leaflet.heat.
 
-## Technologies Used for
+## Technologies Used 
 
 - [Leaflet](https://leafletjs.com/): An open-source JavaScript library for mobile-friendly interactive maps.
 - [Leaflet.heat](https://github.com/Leaflet/Leaflet.heat): A plugin for Leaflet that provides a simple way to display heatmaps.
