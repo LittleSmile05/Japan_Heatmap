@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japan Heatmap</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+</head>
+<body>
+    <div id="map" style="height: 600px;"></div>
+
+    <script>
+        var map = L.map('map').setView([35.68, 139.76], 5); //   Tokyo
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        var geojson = {
+            "type": "FeatureCollection",
+            "features": [
+                { "type": "Feature", "geometry": { "type": "Point", "coordinates": [139.76, 35.68] } },
+                { "type": "Feature", "geometry": { "type": "Point", "coordinates": [135.76, 35.68] } },
+                { "type": "Feature", "geometry": { "type": "Point", "coordinates": [139.76, 34.68] } },
+                { "type": "Feature", "geometry": { "type": "Point", "coordinates": [132.76, 34.68] } },
+                { "type": "Feature", "geometry": { "type": "Point", "coordinates": [135.76, 32.68] } },
+
+            ]
+        };
+
+        var heatLayer = L.heatLayer([], { radius: 35, maxZoom: 5}).addTo(map);
+
+        geojson.features.forEach(function (feature) {
+            var coordinates = feature.geometry.coordinates.reverse(); // Leaflet uses [lat, lon]
+            heatLayer.addLatLng(coordinates);
+        });
+
+        var legend = L.control({ position: 'bottomright' });
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'info legend');
+            div.innerHTML += '<strong>Heatmap Legend</strong><br>';
+            div.innerHTML += 'Intensity<br>';
+            div.innerHTML += '<i style="background:#f00"></i> High<br>';
+            return div;
+        };
+        legend.addTo(map);
+    </script>
+</body>
+</html>
